@@ -40,13 +40,10 @@ echo ===============================
 echo Gathering information, please wait...
 echo.
 
-:: Get CPU Name using PowerShell
 for /f "tokens=*" %%i in ('powershell -command "Get-WmiObject Win32_Processor | Select-Object -ExpandProperty Name"') do set "CPUName=%%i"
 
-:: Get Total Physical Memory using PowerShell
 for /f "tokens=*" %%i in ('powershell -command "Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory"') do set "TotalMemory=%%i"
 
-:: Convert Total Memory from bytes to GB
 set /a TotalMemoryGB=%TotalMemory:~0,-6% / 1024
 
 echo [+] Operating System: %OS%
@@ -105,7 +102,6 @@ echo ===============================
 echo   Network Adapters and Their Statuses     
 echo ===============================
 echo.
-:: Get network adapter information using PowerShell
 powershell -command "Get-NetAdapter"
 echo.
 echo Press any key to return to the network menu.
@@ -178,7 +174,6 @@ echo ===============================
 echo       Automated Network Checks       
 echo ===============================
 echo.
-:: Automated network checks can be a series of commands like ipconfig, ping, etc.
 echo Performing automated network checks...
 echo.
 ipconfig /release
@@ -252,7 +247,6 @@ echo ===============================
 echo          List Running Services       
 echo ===============================
 echo.
-:: List running services using PowerShell
 powershell -command "Get-Service | Where-Object {$_.Status -eq 'Running'}"
 echo.
 echo Press any key to return to the service management menu.
@@ -265,7 +259,6 @@ echo ===============================
 echo          List Stopped Services       
 echo ===============================
 echo.
-:: List stopped services using PowerShell
 powershell -command "Get-Service | Where-Object {$_.Status -eq 'Stopped'}"
 echo.
 echo Press any key to return to the service management menu.
@@ -297,7 +290,6 @@ echo ===============================
 echo.
 set /p svc_name=Enter the name of the service to stop: 
 echo.
-:: Stop a service using PowerShell
 powershell -command "Stop-Service %svc_name%"
 echo.
 echo Service "%svc_name%" stopped successfully.
@@ -314,7 +306,6 @@ echo ===============================
 echo.
 set /p svc_name=Enter the name of the service to restart: 
 echo.
-:: Restart a service using PowerShell
 powershell -command "Restart-Service %svc_name%"
 echo.
 echo Service "%svc_name%" restarted successfully.
@@ -329,7 +320,6 @@ echo ===============================
 echo          Drive Health Check       
 echo ===============================
 echo.
-:: Display drive health using PowerShell
 powershell -command "Get-WmiObject Win32_DiskDrive | Select-Object Model, @{Name='HealthStatus'; Expression={If ($_.Status -eq 'OK') {'Healthy'} Else {'Unhealthy'}}}"
 echo.
 echo Press any key to return to the main menu.
@@ -356,7 +346,6 @@ echo ===============================
 echo        System Restore Points       
 echo ===============================
 echo.
-:: Display system restore points using PowerShell
 powershell -command "Get-ComputerRestorePoint | Select-Object Description, SequenceNumber, ConvertTo-Csv"
 echo.
 echo Press any key to return to the backup and restore menu.
@@ -372,7 +361,6 @@ echo.
 echo Running internet speed test. Please wait...
 echo.
 
-:: Download Speedtest CLI
 powershell -command "(New-Object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py', 'speedtest.py')"
 
 :: Run Speedtest
